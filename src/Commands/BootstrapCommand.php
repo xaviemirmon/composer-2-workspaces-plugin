@@ -52,7 +52,7 @@ EOT
         
         $configCommand = new StringInput('config repositories.composer-2-workspaces vcs git@github.com:xaviemirmon/composer-2-workspaces-plugin.git');
 
-        $requireCommand = new StringInput('require --dev tmdk/composer-workspaces-plugin@dev-overrides');
+        $requireCommand = new StringInput('require --dev tmdk/composer-workspaces-plugin:dev-overrides');
 
         $exitCode = 0;
 
