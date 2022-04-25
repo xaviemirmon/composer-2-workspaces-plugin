@@ -59,6 +59,9 @@ EOT
         $exitCode = 0;
 
         foreach ($workspaceRoot->getWorkspaces() as $workspace) {
+            
+            echo $workspace->getName();
+            
             $exitCode = max($exitCode, $this->runInWorkspace($workspace->getName(), $configCommand, $output));
             
             if (!strpos($workspace->getName(), 'drupal')) {
