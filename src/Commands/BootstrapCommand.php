@@ -60,11 +60,12 @@ EOT
 
         foreach ($workspaceRoot->getWorkspaces() as $workspace) {
             
-            echo $workspace->getName();
-            
             $exitCode = max($exitCode, $this->runInWorkspace($workspace->getName(), $configCommand, $output));
             
-            if (!strpos($workspace->getName(), 'drupal')) {
+            echo $workspace->getName();
+            echo strpos($workspace->getName(), 'drupal');
+            
+            if (strpos($workspace->getName(), 'drupal') !== false) {
                 $requireCommandNoUpdate = new StringInput('require --dev tmdk/composer-workspaces-plugin:dev-overrides --no-update');
             } else {
                 $exitCode = max($exitCode, $this->runInWorkspace($workspace->getName(), $requireCommand, $output));
