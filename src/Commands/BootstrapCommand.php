@@ -51,14 +51,21 @@ EOT
         $application->setAutoExit(false);
         
         $configCommand = new StringInput('config repositories.composer-2-workspaces vcs git@github.com:xaviemirmon/composer-2-workspaces-plugin.git');
+        
+        $requireCommand = new StringInput('require --dev tmdk/composer-workspaces-plugin:dev-overrides');
 
-        $requireCommand = new StringInput('require --dev tmdk/composer-workspaces-plugin:dev-overrides --no-update');
+        $requireCommandNoUpdate = new StringInput('require --dev tmdk/composer-workspaces-plugin:dev-overrides --no-update');
 
         $exitCode = 0;
 
         foreach ($workspaceRoot->getWorkspaces() as $workspace) {
             $exitCode = max($exitCode, $this->runInWorkspace($workspace->getName(), $configCommand, $output));
-            $exitCode = max($exitCode, $this->runInWorkspace($workspace->getName(), $requireCommand, $output));
+            
+            if (str_contains($workspace->getName(), 'drupal')) {
+                $requireCommandNoUpdate = new StringInput('require --dev tmdk/composer-workspaces-plugin:dev-overrides --no-update');
+            } else {
+                $exitCode = max($exitCode, $this->runInWorkspace($workspace->getName(), $requireCommand, $output));
+            }
         }
 
         return $exitCode;
